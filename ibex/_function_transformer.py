@@ -123,7 +123,7 @@ class FunctionTransformer(base.BaseEstimator, base.TransformerMixin, FrameMixin)
             else:
                 res = self.func.fit_transform(Xt)
         else:
-            res = pd.DataFrame(self.func(Xt), index=Xt.index)
+            res = pd.DataFrame(self.func(Xt, **self.kw_args), index=Xt.index)
 
         return self.__process_res(Xt, res)
 
@@ -151,7 +151,7 @@ class FunctionTransformer(base.BaseEstimator, base.TransformerMixin, FrameMixin)
             else:
                 res = self.func.transform(Xt)
         else:
-            res = pd.DataFrame(self.func(Xt), index=Xt.index)
+            res = pd.DataFrame(self.func(Xt, **self.kw_args), index=Xt.index)
 
         return self.__process_res(Xt, res)
 

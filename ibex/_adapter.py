@@ -323,7 +323,7 @@ def _make_adapter(
         def __reduce__(self):
             if not self.__module__.startswith('ibex'):
                 raise TypeError('Cannot serialize a subclass of this type; please use composition instead')
-            return (_from_pickle, (est, self.get_params(deep=True), extra_methods, extra_attribs))
+            return (_from_pickle, (est, self.get_params(deep=True), extra_methods, extra_attribs), self.__getstate__())
 
     return _Adapter
 

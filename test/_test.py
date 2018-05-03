@@ -16,6 +16,7 @@ _level = 1 if _level is None else int(_level)
 
 import six
 import pandas as pd
+from pandas.testing import assert_frame_equal
 import numpy as np
 import sklearn
 from sklearn import preprocessing
@@ -1031,6 +1032,15 @@ class _PickleTest(unittest.TestCase):
     def test_external_composition(self):
         e = _ExternalComposer()
         pickle.loads(pickle.dumps(e))
+
+    def test_pickle_fit_adapter(self):
+        df_in = pd.DataFrame({'x': [1, np.nan, 3]})
+        expected_output = pd.DataFrame({'x': [1., 2., 3.]}, index=df_in.index)
+
+        imp = pd_preprocessing.Imputer(strategy='mean')
+        imp.fit(df_in)
+        imp_ = pickle.loads(pickle.dumps(imp))
+        assert_frame_equal(imp_.transform(df_in), expected_output)
 
 
 def load_tests(loader, tests, ignore):
